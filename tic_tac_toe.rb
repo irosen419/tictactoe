@@ -1,6 +1,3 @@
-# another test
-
-
 # an array of all the possible winning combinations
 WIN_COMBINATIONS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 4, 8], [2, 4, 6], [0, 3, 6], [1, 4, 7], [2, 5, 8]]
 
@@ -33,10 +30,28 @@ def valid_move?(board, index)
   index.between?(0,8) && !position_taken?(board, index)
 end
 
-# computer chooses an index between 0 and 8
+computer chooses an index between 0 and 8
 def computer_index
   rand(8)
 end
+
+# def computer_index
+#   if turn_count(board) == 0
+#     0
+#   elsif turn_count(board) == 1
+#     if !position_taken(board, 2)
+#       return 2
+#     else
+#       return 6
+#     end
+#   elsif turn_count(board) == 2
+#     if board[0] == "X" && board[2] == "X"
+#       return 1
+#     elsif board[0] == "X" && board[6] == "X"
+#       return 4
+#     elsif 
+
+# end
 
 # prompts user for their input and places their character on the board
 # if the move is not vaild, the process repeats
@@ -52,6 +67,7 @@ def turn(board)
   end
 end
 
+# the computer chooses its turn placement here
 def comp_turn(board)
   index = computer_index
   if valid_move?(board, index)
@@ -114,6 +130,7 @@ def winner(board)
 end
 
 # runs the game
+# asks the player if they would like to play solo or with another player. chooses the correct path accordingly
 # congratulates winner or announces a draw
 def play(board)
   puts "Are you playing with another person or would you like to play against the computer?"
@@ -134,13 +151,14 @@ def play(board)
     elsif draw?(board)
       puts "It's a draw!"
     end
+
   elsif choice == "1"
     until over?(board)
-      puts "Now it's your turn..."
-      turn(board)
-      break if won?(board)
       puts "Now it's my turn..."
       comp_turn(board)
+      break if won?(board)
+      puts "Now it's your turn..."
+      turn(board)
     end
     
     if won?(board)
