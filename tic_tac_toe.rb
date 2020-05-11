@@ -137,6 +137,7 @@ def play(board)
     until over?(board)
       puts "Now it's your turn..."
       turn(board)
+      break if won?(board)
       puts "Now it's my turn..."
       comp_turn(board)
     end
