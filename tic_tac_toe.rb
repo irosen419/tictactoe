@@ -120,6 +120,11 @@ def play(board)
   choice = gets.strip
   if choice == "2"
     until over?(board)
+      if current_player(board) == "X"
+        puts "It's X's turn"
+      elsif current_player(board) == "O"
+        puts "It's O's turn"
+      end
       turn(board)
     end
     
@@ -130,7 +135,9 @@ def play(board)
     end
   elsif choice == "1"
     until over?(board)
+      puts "Now it's your turn..."
       turn(board)
+      puts "Now it's my turn..."
       comp_turn(board)
     end
     
