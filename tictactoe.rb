@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative '../code/tic_tac_toe'
+require_relative '../tictactoe/tic_tac_toe'
 
 board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
 

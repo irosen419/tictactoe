@@ -32,6 +32,11 @@ def valid_move?(board, index)
   index.between?(0,8) && !position_taken?(board, index)
 end
 
+# computer chooses an index between 0 and 8
+def computer_index
+  rand(8)
+end
+
 # prompts user for their input and places their character on the board
 # if the move is not vaild, the process repeats
 def turn(board)
@@ -43,6 +48,16 @@ def turn(board)
     display_board(board)
   else
     turn(board)
+  end
+end
+
+def comp_turn(board)
+  index = computer_index
+  if valid_move?(board, index)
+    move(board, index, current_player(board))
+    display_board(board)
+  else
+    comp_turn(board)
   end
 end
 
@@ -100,13 +115,29 @@ end
 # runs the game
 # congratulates winner or announces a draw
 def play(board)
-  until over?(board)
-    turn(board)
-  end
-  
-  if won?(board)
-    puts "Congratulations #{winner(board)}!"
-  elsif draw?(board)
-    puts "It's a draw!"
+  puts "Are you playing with another person or would you like to play against the computer?"
+  puts "Please enter '1' for one player or '2' for two"
+  choice = gets.strip
+  if choice == "2"
+    until over?(board)
+      turn(board)
+    end
+    
+    if won?(board)
+      puts "Congratulations #{winner(board)}!"
+    elsif draw?(board)
+      puts "It's a draw!"
+    end
+  elsif choice == "1"
+    until over?(board)
+      turn(board)
+      comp_turn(board)
+    end
+    
+    if won?(board)
+      puts "Congratulations #{winner(board)}!"
+    elsif draw?(board)
+      puts "It's a draw!"
+    end
   end
 end
