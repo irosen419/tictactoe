@@ -1,5 +1,6 @@
 # an array of all the possible winning combinations
 WIN_COMBINATIONS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 4, 8], [2, 4, 6], [0, 3, 6], [1, 4, 7], [2, 5, 8]]
+CORNERS = [0, 2, 6, 8]
 
 # displays the tic tac toe board for the user
 def display_board(board)
@@ -30,28 +31,52 @@ def valid_move?(board, index)
   index.between?(0,8) && !position_taken?(board, index)
 end
 
-computer chooses an index between 0 and 8
-def computer_index
-  rand(8)
+# computer chooses an index between 0 and 8
+# def computer_index
+#   rand(8)
+# end
+
+def has_two(board)
+  WIN_COMBINATIONS.each do |combo|
+    if combo.count { |x| board[x] == "X"} == 2
+      if combo.index { |x| board[x] == " "}
+        return x
+      end
+    elsif combo.count{ |x| board[x] == "O"} == 2
+      if combo.index { |x| board[x] == " "}
+        return x
+      end
+    else
+      CORNERS.sample
+    end
+  end
 end
 
-# def computer_index
-#   if turn_count(board) == 0
-#     0
-#   elsif turn_count(board) == 1
-#     if !position_taken(board, 2)
-#       return 2
-#     else
-#       return 6
-#     end
-#   elsif turn_count(board) == 2
-#     if board[0] == "X" && board[2] == "X"
-#       return 1
-#     elsif board[0] == "X" && board[6] == "X"
-#       return 4
-#     elsif 
+def computer_index(board)
+  if turn_count(board) == 0
+    CORNERS.sample 
+  elsif turn_count(board) == 1
+    CORNERS.sample
+  elsif turn_count(board) == 2
+    if !position_taken?(board, has_two(board))
+      index = has_two(board)
+      return index
+    end
+  elsif turn_count(board) == 3
+    # if !has_two(WIN_COMBINATIONS)
+    #   if !position_taken?(board, 8)
+    #     return 8
+    #   end
+    # end
+    if !position_taken?(board, has_two(board))
+      index = has_two(board)
+      return index
+    end
+  else
+    rand(8)
+  end
 
-# end
+end
 
 # prompts user for their input and places their character on the board
 # if the move is not vaild, the process repeats
@@ -69,7 +94,7 @@ end
 
 # the computer chooses its turn placement here
 def comp_turn(board)
-  index = computer_index
+  index = computer_index(board)
   if valid_move?(board, index)
     move(board, index, current_player(board))
     display_board(board)
@@ -133,7 +158,6 @@ end
 # asks the player if they would like to play solo or with another player. chooses the correct path accordingly
 # congratulates winner or announces a draw
 def play(board)
-  puts "Are you playing with another person or would you like to play against the computer?"
   puts "Please enter '1' for one player or '2' for two"
   choice = gets.strip
   if choice == "2"
