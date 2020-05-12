@@ -39,12 +39,12 @@ end
 def has_two(board)
   WIN_COMBINATIONS.each do |combo|
     if combo.count { |x| board[x] == "X"} == 2
-      if combo.index { |x| board[x] == " "}
-        return x
+      if combo.index(" ")
+        return combo[combo.index(" ")]
       end
     elsif combo.count{ |x| board[x] == "O"} == 2
-      if combo.index { |x| board[x] == " "}
-        return x
+      if combo.index(" ")
+        return combo[combo.index(" ")]
       end
     else
       CORNERS.sample
