@@ -31,22 +31,24 @@ def valid_move?(board, index)
   index.between?(0,8) && !position_taken?(board, index)
 end
 
-# computer chooses an index between 0 and 8
-# def computer_index
-#   rand(8)
-# end
-
 def has_two(board)
   WIN_COMBINATIONS.each do |combo|
     if combo.count { |x| board[x] == "X"} == 2
+      
       if combo.index { |x| board[x] == " "}
-        return combo[combo.index { |x| board[x] == " "}]
+        
+        winner = combo.index { |x| board[x] == " "}
+        puts "#{combo[winner]}"
+        combo[winner]
       end
     elsif combo.count{ |x| board[x] == "O"} == 2
       if combo.index { |x| board[x] == " "}
-        return combo[combo.index { |x| board[x] == " "}]
+        block = combo.index { |x| board[x] == " "}
+        puts "#{combo[block]}"
+        combo[block]
       end
     else
+      puts "#{CORNERS.sample}"
       CORNERS.sample
     end
   end
@@ -54,28 +56,22 @@ end
 
 def computer_index(board)
   if turn_count(board) == 0
-    CORNERS.sample 
+    CORNERS.sample
   elsif turn_count(board) == 2
     CORNERS.sample
   elsif turn_count(board) == 4
     if !position_taken?(board, has_two(board))
       index = has_two(board)
-      return index
+      index
     end
   elsif turn_count(board) == 6
-    # if !has_two(WIN_COMBINATIONS)
-    #   if !position_taken?(board, 8)
-    #     return 8
-    #   end
-    # end
     if !position_taken?(board, has_two(board))
       index = has_two(board)
-      return index
+      index
     end
   else
     rand(8)
   end
-
 end
 
 # prompts user for their input and places their character on the board
