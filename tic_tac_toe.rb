@@ -27,18 +27,20 @@ class TicTacToe
 
   # determines if the chosen position on the board is taken
   def position_taken?(index)
+    puts "The board is #{@board}"
     @board[index] != " " && @board[index] != ""
   end
 
   #determines if the move is a valid move
   def valid_move?(index)
+    puts "I've made it this far"
     index.between?(0,8) && !position_taken?(index)
+    
   end
 
   def has_two
     WIN_COMBINATIONS.each do |combo|
       if combo.count { |x| @board[x] == "X"} == 2
-        
         if combo.index { |x| @board[x] == " "}
           
           winner = combo.index { |x| @board[x] == " "}
@@ -53,6 +55,7 @@ class TicTacToe
         end
       else
         puts "#{CORNERS.sample}"
+        puts "#{CORNERS.sample.class}"
         CORNERS.sample
       end
     end
