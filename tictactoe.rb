@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
 
-require_relative '../code/tic_tac_toe'
+require_relative '../tictactoe/tic_tac_toe.rb'
 
-board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+game = TicTacToe.new
 
 puts "Welcome to Tic Tac Toe!"
-display_board(board)
 
-play(board)
+game.display_board
+
+game.play
