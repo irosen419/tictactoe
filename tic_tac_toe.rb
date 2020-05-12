@@ -39,12 +39,12 @@ end
 def has_two(board)
   WIN_COMBINATIONS.each do |combo|
     if combo.count { |x| board[x] == "X"} == 2
-      if combo.index(" ")
-        return combo[combo.index(" ")]
+      if combo.index { |x| board[x] == " "}
+        return combo[combo.index { |x| board[x] == " "}]
       end
     elsif combo.count{ |x| board[x] == "O"} == 2
-      if combo.index(" ")
-        return combo[combo.index(" ")]
+      if combo.index { |x| board[x] == " "}
+        return combo[combo.index { |x| board[x] == " "}]
       end
     else
       CORNERS.sample
@@ -55,14 +55,14 @@ end
 def computer_index(board)
   if turn_count(board) == 0
     CORNERS.sample 
-  elsif turn_count(board) == 1
-    CORNERS.sample
   elsif turn_count(board) == 2
+    CORNERS.sample
+  elsif turn_count(board) == 4
     if !position_taken?(board, has_two(board))
       index = has_two(board)
       return index
     end
-  elsif turn_count(board) == 3
+  elsif turn_count(board) == 6
     # if !has_two(WIN_COMBINATIONS)
     #   if !position_taken?(board, 8)
     #     return 8
