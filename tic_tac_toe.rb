@@ -27,70 +27,87 @@ class TicTacToe
 
   # determines if the chosen position on the board is taken
   def position_taken?(index)
-    puts "Now Index = #{index}"
+    # puts "Now Index = #{index}"
     @board[index] != " " && @board[index] != ""
   end
 
   #determines if the move is a valid move
   def valid_move?(index)
-    puts "Index = #{index}"
-    puts "Turn count = #{turn_count}"
-
+    puts "Turn #{turn_count}"
     index.between?(0,8) && !position_taken?(index)
-    
   end
-
-  # if a winning combo for "X" has 2 Xs already, the computer will fill that spot
-  # if a winning combo for "O" has 2 Os already, the computer will fill that spot to block
-  # otherwise, choose a random corner
-  # def has_two
-  #   WIN_COMBINATIONS.each do |combo|
-  #     if (combo.count { |x| @board[x] == "X"}) == 2
-  #       combo.each do |element|
-  #         if @board[element] == " "
-  #           COMP_MOVE_ARRAY << element
-  #         end
-  #       end
-  #     elsif (combo.count{ |x| @board[x] == "O"}) == 2
-  #       combo.each do |element|
-  #         if @board[element] == " "
-  #           COMP_MOVE_ARRAY << element
-  #         end
-  #       end
-  #     else
-  #       COMP_MOVE_ARRAY << CORNERS.sample
-  #     end
-  #   end
-  # end
 
   # returns the chosen index to the comp_turn method
   def computer_index
+    unused_combos = []
     if turn_count == 0
-      CORNERS.sample
+      return CORNERS.sample
     elsif turn_count == 2
-      CORNERS.sample
-    elsif turn_count == 4 || turn_count == 6
+      return CORNERS.sample
+    elsif turn_count == 4
+      empty = nil
       WIN_COMBINATIONS.each do |combo|
-        if @board[combo[0]] == "X" && @board[combo[1]] == "X"
-            @board[combo[2]]
-        elsif @board[combo[1]] == "X" && @board[combo[2]] == "X"
-          @board[combo[0]]
-        elsif @board[combo[0]] == "X" && @board[combo[2]] == "X"
-          @board[combo[1]]
-        elsif @board[combo[0]] == "O" && @board[combo[1]] == "O"
-            @board[combo[2]]
-        elsif @board[combo[1]] == "O" && @board[combo[2]] == "O"
-          @board[combo[0]]
-        elsif @board[combo[0]] == "O" && @board[combo[2]] == "O"
-          @board[combo[1]]
-        else
-          CORNERS.sample
+        if @board[combo[0]] == "X" && @board[combo[1]] == "X" && (@board[combo[2]] == " " || @board[combo[2]] == "")
+          empty = combo[2]
+          puts "#{combo}"
+          return combo[2]
+        elsif @board[combo[1]] == "X" && @board[combo[2]] == "X" && (@board[combo[0]] == " " || @board[combo[0]] == "")
+          empty = combo[0]
+          puts "#{combo}"
+          return combo[0]
+        elsif @board[combo[0]] == "X" && @board[combo[2]] == "X" && (@board[combo[1]] == " " || @board[combo[1]] == "")
+          empty = combo[1]
+          puts "#{combo}"
+          return combo[1]
+        elsif @board[combo[0]] == "O" && @board[combo[1]] == "O" && (@board[combo[2]] == " " || @board[combo[2]] == "")
+          empty = combo[2]
+          puts "#{combo}"
+          return combo[2]
+        elsif @board[combo[1]] == "O" && @board[combo[2]] == "O" && (@board[combo[0]] == " " || @board[combo[0]] == "")
+          empty = combo[0]
+          puts "#{combo}"
+          return combo[0]
+        elsif @board[combo[0]] == "O" && @board[combo[2]] == "O" && (@board[combo[1]] == " " || @board[combo[1]] == "")
+          empty = combo[1]
+          puts "#{combo}"
+          return combo[1]
         end
       end
+      return CORNERS.sample if !empty
+    elsif turn_count == 6
+      empty = nil
+      WIN_COMBINATIONS.each do |combo|
+        if @board[combo[0]] == "X" && @board[combo[1]] == "X" && (@board[combo[2]] == " " || @board[combo[2]] == "")
+          empty = combo[2]
+          puts "#{combo}"
+          return combo[2]
+        elsif @board[combo[1]] == "X" && @board[combo[2]] == "X" && (@board[combo[0]] == " " || @board[combo[0]] == "")
+          empty = combo[0]
+          puts "#{combo}"
+          return combo[0]
+        elsif @board[combo[0]] == "X" && @board[combo[2]] == "X" && (@board[combo[1]] == " " || @board[combo[1]] == "")
+          empty = combo[1]
+          puts "#{combo}"
+          return combo[1]
+        elsif @board[combo[0]] == "O" && @board[combo[1]] == "O" && (@board[combo[2]] == " " || @board[combo[2]] == "")
+          empty = combo[2]
+          puts "#{combo}"
+          return combo[2]
+        elsif @board[combo[1]] == "O" && @board[combo[2]] == "O" && (@board[combo[0]] == " " || @board[combo[0]] == "")
+          empty = combo[0]
+          puts "#{combo}"
+          return combo[0]
+        elsif @board[combo[0]] == "O" && @board[combo[2]] == "O" && (@board[combo[1]] == " " || @board[combo[1]] == "")
+          empty = combo[1]
+          puts "#{combo}"
+          return combo[1]
+        end
+      end
+      return CORNERS.sample if !empty
     else
       @board.each do |space|
-        if space == " "
-          space
+        if space == " " || space == ""
+          return @board.index(space)
         end
       end
     end
