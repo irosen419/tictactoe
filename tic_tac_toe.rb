@@ -38,6 +38,7 @@ class TicTacToe
   end
 
   # returns the chosen index to the comp_turn method
+  # if two indexes of a winning combo are filled by either X or O, the computer will win or block accordingly
   def computer_index
     unused_combos = []
     if turn_count == 0
@@ -89,7 +90,10 @@ class TicTacToe
           empty = combo[1]
           puts "#{combo}"
           return combo[1]
-        elsif @board[combo[0]] == "O" && @board[combo[1]] == "O" && (@board[combo[2]] == " " || @board[combo[2]] == "")
+        end
+      end
+      WIN_COMBINATIONS.each do |combo|
+        if @board[combo[0]] == "O" && @board[combo[1]] == "O" && (@board[combo[2]] == " " || @board[combo[2]] == "")
           empty = combo[2]
           puts "#{combo}"
           return combo[2]
