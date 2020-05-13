@@ -49,27 +49,21 @@ class TicTacToe
       WIN_COMBINATIONS.each do |combo|
         if @board[combo[0]] == "X" && @board[combo[1]] == "X" && (@board[combo[2]] == " " || @board[combo[2]] == "")
           empty = combo[2]
-          puts "#{combo}"
           return combo[2]
         elsif @board[combo[1]] == "X" && @board[combo[2]] == "X" && (@board[combo[0]] == " " || @board[combo[0]] == "")
           empty = combo[0]
-          puts "#{combo}"
           return combo[0]
         elsif @board[combo[0]] == "X" && @board[combo[2]] == "X" && (@board[combo[1]] == " " || @board[combo[1]] == "")
           empty = combo[1]
-          puts "#{combo}"
           return combo[1]
         elsif @board[combo[0]] == "O" && @board[combo[1]] == "O" && (@board[combo[2]] == " " || @board[combo[2]] == "")
           empty = combo[2]
-          puts "#{combo}"
           return combo[2]
         elsif @board[combo[1]] == "O" && @board[combo[2]] == "O" && (@board[combo[0]] == " " || @board[combo[0]] == "")
           empty = combo[0]
-          puts "#{combo}"
           return combo[0]
         elsif @board[combo[0]] == "O" && @board[combo[2]] == "O" && (@board[combo[1]] == " " || @board[combo[1]] == "")
           empty = combo[1]
-          puts "#{combo}"
           return combo[1]
         end
       end
@@ -79,30 +73,24 @@ class TicTacToe
       WIN_COMBINATIONS.each do |combo|
         if @board[combo[0]] == "X" && @board[combo[1]] == "X" && (@board[combo[2]] == " " || @board[combo[2]] == "")
           empty = combo[2]
-          puts "#{combo}"
           return combo[2]
         elsif @board[combo[1]] == "X" && @board[combo[2]] == "X" && (@board[combo[0]] == " " || @board[combo[0]] == "")
           empty = combo[0]
-          puts "#{combo}"
           return combo[0]
         elsif @board[combo[0]] == "X" && @board[combo[2]] == "X" && (@board[combo[1]] == " " || @board[combo[1]] == "")
           empty = combo[1]
-          puts "#{combo}"
           return combo[1]
         end
       end
       WIN_COMBINATIONS.each do |combo|
         if @board[combo[0]] == "O" && @board[combo[1]] == "O" && (@board[combo[2]] == " " || @board[combo[2]] == "")
           empty = combo[2]
-          puts "#{combo}"
           return combo[2]
         elsif @board[combo[1]] == "O" && @board[combo[2]] == "O" && (@board[combo[0]] == " " || @board[combo[0]] == "")
           empty = combo[0]
-          puts "#{combo}"
           return combo[0]
         elsif @board[combo[0]] == "O" && @board[combo[2]] == "O" && (@board[combo[1]] == " " || @board[combo[1]] == "")
           empty = combo[1]
-          puts "#{combo}"
           return combo[1]
         end
       end
