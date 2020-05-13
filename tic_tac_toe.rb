@@ -5,6 +5,7 @@ class TicTacToe
   # an array of all the possible winning combinations
   WIN_COMBINATIONS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 4, 8], [2, 4, 6], [0, 3, 6], [1, 4, 7], [2, 5, 8]]
   CORNERS = [0, 2, 6, 8]
+  COMP_MOVE_ARRAY = []
 
   # displays the tic tac toe board for the user
   def display_board
@@ -34,47 +35,60 @@ class TicTacToe
   #determines if the move is a valid move
   def valid_move?(index)
     puts "I've made it this far"
+    puts "#{COMP_MOVE_ARRAY}"
     index.between?(0,8) && !position_taken?(index)
     
   end
 
+  # if a winning combo for "X" has 2 Xs already, the computer will fill that spot
+  # if a winning combo for "O" has 2 Os already, the computer will fill that spot to block
+  # otherwise, choose a random corner
   def has_two
     WIN_COMBINATIONS.each do |combo|
       if combo.count { |x| @board[x] == "X"} == 2
-        if combo.index { |x| @board[x] == " "}
-          
-          winner = combo.index { |x| @board[x] == " "}
-          puts "#{combo[winner]}"
-          combo[winner]
+        # if combo.index { |x| @board[x] == " "}
+        #   winner = combo.index { |x| @board[x] == " "}
+        #   puts "#{combo[winner]}"
+        #   combo[winner]
+        combo.each do |element|
+          if @board[element] == " "
+            COMP_MOVE_ARRAY << element
+          end
         end
       elsif combo.count{ |x| @board[x] == "O"} == 2
-        if combo.index { |x| @board[x] == " "}
-          block = combo.index { |x| @board[x] == " "}
-          puts "#{combo[block]}"
-          combo[block]
+        # if combo.index { |x| @board[x] == " "}
+        #   block = combo.index { |x| @board[x] == " "}
+        #   puts "#{combo[block]}"
+        #   combo[block]
+        # end
+        combo.each do |element|
+          if @board[element] == " "
+            COMP_MOVE_ARRAY << element
+          end
         end
       else
-        puts "#{CORNERS.sample}"
-        puts "#{CORNERS.sample.class}"
-        CORNERS.sample
+        COMP_MOVE_ARRAY << CORNERS.sample
       end
     end
   end
 
+  # returns the chosen index to the comp_turn method
   def computer_index
     if turn_count == 0
-      CORNERS.sample
+      COMP_MOVE_ARRAY << CORNERS.sample
+      COMP_MOVE_ARRAY[-1]
     elsif turn_count == 2
-      CORNERS.sample
+      COMP_MOVE_ARRAY << CORNERS.sample
+      COMP_MOVE_ARRAY[-1]
     elsif turn_count == 4
-      if !position_taken?(has_two)
-        index = has_two
-        index
+      has_two
+      if !position_taken?(COMP_MOVE_ARRAY[-1])
+        COMP_MOVE_ARRAY[-1]
       end
     elsif turn_count == 6
-      if !position_taken?(has_two)
-        index = has_two
-        index
+      has_two
+      if !position_taken?(COMP_MOVE_ARRAY[-1])
+        COMP_MOVE_ARRAY[-1]
       end
     else
       rand(8)
