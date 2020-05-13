@@ -27,7 +27,7 @@ class TicTacToe
 
   # determines if the chosen position on the board is taken
   def position_taken?(index)
-    puts "Now Index is #{index}"
+    puts "Now Index = #{index}"
     @board[index] != " " && @board[index] != ""
   end
 
