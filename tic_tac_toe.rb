@@ -128,7 +128,6 @@ class TicTacToe
     else
       turn
     end
-    count
   end
 
   # the computer chooses its turn placement here
