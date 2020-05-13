@@ -2,18 +2,9 @@ class TicTacToe
   def initialize(board = nil)
     @board = board || Array.new(9, " ")
   end
-
   # an array of all the possible winning combinations
-  WIN_COMBINATIONS = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8]
-    ]
+  WIN_COMBINATIONS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 4, 8], [2, 4, 6], [0, 3, 6], [1, 4, 7], [2, 5, 8]]
+  CORNERS = [0, 2, 6, 8]
 
   # displays the tic tac toe board for the user
   def display_board
@@ -30,7 +21,7 @@ class TicTacToe
   end
 
   # takes the users input and places their character in the correct spot on the board
-  def move(index, character = "X")
+  def move(index, character)
     @board[index] = character
   end
 
@@ -41,7 +32,114 @@ class TicTacToe
 
   #determines if the move is a valid move
   def valid_move?(index)
+    puts "Turn #{turn_count}"
     index.between?(0,8) && !position_taken?(index)
+  end
+
+  # returns the chosen index to the comp_turn method
+  # if two indexes of a winning combo are filled by either X or O, the computer will win or block accordingly
+  def computer_index
+    unused_combos = []
+    if turn_count == 0
+      return CORNERS.sample
+    elsif turn_count == 2
+      return CORNERS.sample
+    elsif turn_count == 4
+      empty = nil
+      WIN_COMBINATIONS.each do |combo|
+        if @board[combo[0]] == "X" && @board[combo[1]] == "X" && (@board[combo[2]] == " " || @board[combo[2]] == "")
+          empty = combo[2]
+          puts "#{combo}"
+          return combo[2]
+        elsif @board[combo[1]] == "X" && @board[combo[2]] == "X" && (@board[combo[0]] == " " || @board[combo[0]] == "")
+          empty = combo[0]
+          puts "#{combo}"
+          return combo[0]
+        elsif @board[combo[0]] == "X" && @board[combo[2]] == "X" && (@board[combo[1]] == " " || @board[combo[1]] == "")
+          empty = combo[1]
+          puts "#{combo}"
+          return combo[1]
+        elsif @board[combo[0]] == "O" && @board[combo[1]] == "O" && (@board[combo[2]] == " " || @board[combo[2]] == "")
+          empty = combo[2]
+          puts "#{combo}"
+          return combo[2]
+        elsif @board[combo[1]] == "O" && @board[combo[2]] == "O" && (@board[combo[0]] == " " || @board[combo[0]] == "")
+          empty = combo[0]
+          puts "#{combo}"
+          return combo[0]
+        elsif @board[combo[0]] == "O" && @board[combo[2]] == "O" && (@board[combo[1]] == " " || @board[combo[1]] == "")
+          empty = combo[1]
+          puts "#{combo}"
+          return combo[1]
+        end
+      end
+      return CORNERS.sample if !empty
+    elsif turn_count == 6
+      empty = nil
+      WIN_COMBINATIONS.each do |combo|
+        if @board[combo[0]] == "X" && @board[combo[1]] == "X" && (@board[combo[2]] == " " || @board[combo[2]] == "")
+          empty = combo[2]
+          puts "#{combo}"
+          return combo[2]
+        elsif @board[combo[1]] == "X" && @board[combo[2]] == "X" && (@board[combo[0]] == " " || @board[combo[0]] == "")
+          empty = combo[0]
+          puts "#{combo}"
+          return combo[0]
+        elsif @board[combo[0]] == "X" && @board[combo[2]] == "X" && (@board[combo[1]] == " " || @board[combo[1]] == "")
+          empty = combo[1]
+          puts "#{combo}"
+          return combo[1]
+        end
+      end
+      WIN_COMBINATIONS.each do |combo|
+        if @board[combo[0]] == "O" && @board[combo[1]] == "O" && (@board[combo[2]] == " " || @board[combo[2]] == "")
+          empty = combo[2]
+          puts "#{combo}"
+          return combo[2]
+        elsif @board[combo[1]] == "O" && @board[combo[2]] == "O" && (@board[combo[0]] == " " || @board[combo[0]] == "")
+          empty = combo[0]
+          puts "#{combo}"
+          return combo[0]
+        elsif @board[combo[0]] == "O" && @board[combo[2]] == "O" && (@board[combo[1]] == " " || @board[combo[1]] == "")
+          empty = combo[1]
+          puts "#{combo}"
+          return combo[1]
+        end
+      end
+      return CORNERS.sample if !empty
+    else
+      @board.each do |space|
+        if space == " " || space == ""
+          return @board.index(space)
+        end
+      end
+    end
+  end
+
+  # prompts user for their input and places their character on the board
+  # if the move is not vaild, the process repeats
+  def turn
+    puts "Please enter 1-9:"
+    input = gets.strip
+    index = input_to_index(input)
+    if valid_move?(index)
+      move(index, current_player)
+      display_board
+    else
+      turn
+    end
+    count
+  end
+
+  # the computer chooses its turn placement here
+  def comp_turn
+    index = computer_index
+    if valid_move?(index)
+      move(index, current_player)
+      display_board
+    else
+      comp_turn
+    end
   end
 
   # determines the turn number to be used in determining the current player
@@ -58,20 +156,6 @@ class TicTacToe
   # determines the current player (X or O) based on the turn number
   def current_player
     turn_count.even? ? "X" : "O"
-  end
-
-  # prompts user for their input and places their character on the board
-  # if the move is not vaild, the process repeats
-  def turn
-    puts "Please enter 1-9:"
-    input = gets.strip
-    index = input_to_index(input)
-    if valid_move?(index)
-      move(index, current_player)
-      display_board
-    else
-      turn
-    end
   end
 
   # determines if someone has won based on all possible winning combinations
@@ -110,16 +194,41 @@ class TicTacToe
   end
 
   # runs the game
+  # asks the player if they would like to play solo or with another player. chooses the correct path accordingly
   # congratulates winner or announces a draw
   def play
-    until over?
-      turn
-    end
-    
-    if won?
-      puts "Congratulations #{winner}!"
-    elsif draw?
-      puts "It's a draw!"
+    puts "Please enter '1' for one player or '2' for two"
+    choice = gets.strip
+    if choice == "2"
+      until over?
+        if current_player == "X"
+          puts "It's X's turn"
+        elsif current_player == "O"
+          puts "It's O's turn"
+        end
+        turn
+      end
+      
+      if won?
+        puts "Congratulations #{winner}!"
+      elsif draw?
+        puts "It's a draw!"
+      end
+
+    elsif choice == "1"
+      until over?
+        puts "Now it's my turn..."
+        comp_turn
+        break if won? || draw?
+        puts "Now it's your turn..."
+        turn
+      end
+      
+      if won?
+        puts "Congratulations #{winner}!"
+      elsif draw?
+        puts "It's a draw!"
+      end
     end
   end
 end
