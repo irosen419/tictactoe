@@ -39,7 +39,6 @@ class TicTacToe
   # returns the chosen index to the comp_turn method
   # if two indexes of a winning combo are filled by either X or O, the computer will win or block accordingly
   def computer_index
-    unused_combos = []
     if turn_count == 0
       return CORNERS.sample
     elsif turn_count == 2
